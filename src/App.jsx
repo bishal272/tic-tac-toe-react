@@ -33,14 +33,6 @@ function App() {
   };
 
   useEffect(() => {
-    // * checks for draw condition
-    if (!squares.includes(null) && !winner) {
-      setDraw(true);
-      setWinner(null);
-      return;
-    }
-    // * everytime the length is odd, it's computer's turn
-    const isComputerTurn = squares.filter((square) => square !== null).length % 2 !== 0;
     // * only returns the array matching the given parameters(a,b,c)
     const lineThatAre = (a, b, c) => {
       return lines.filter((squareIndexes) => {
@@ -49,21 +41,31 @@ function App() {
         return JSON.stringify([a, b, c].sort()) === JSON.stringify(squareValue.sort());
       });
     };
-    // * map to get all the indexes with null value and then filter to get array of index
-    const emptyIndexes = squares
-      .map((square, index) => (square === null ? index : null))
-      .filter((val) => val !== null);
     const playerWon = lineThatAre("x", "x", "x").length > 0;
     const computerWon = lineThatAre("o", "o", "o").length > 0;
 
     if (playerWon) {
       setWinner("x");
       setGameComplete(true);
+      return;
     }
     if (computerWon) {
       setWinner("o");
       setGameComplete(true);
+      return;
     }
+    // * checks for draw condition
+    if (!squares.includes(null) && !winner) {
+      setDraw(true);
+      setWinner(null);
+      return;
+    }
+    // * everytime the length is odd, it's computer's turn
+    const isComputerTurn = squares.filter((square) => square !== null).length % 2 !== 0;
+    // * map to get all the indexes with null value and then filter to get array of index
+    const emptyIndexes = squares
+      .map((square, index) => (square === null ? index : null))
+      .filter((val) => val !== null);
     const putComputerAt = (index) => {
       let newSquares = squares;
       newSquares[index] = "o";
@@ -117,7 +119,9 @@ function App() {
               o={square === "o" ? 1 : 0}
               key={index}
               onClick={() => {
-                if (squares[index] === null && !gameComplete) handleSquareClick(index);
+                if (squares[index] === null && !gameComplete) {
+                  handleSquareClick(index);
+                }
               }}
             />
           ))}

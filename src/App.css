@@ -4,6 +4,7 @@ body {
   font-family: "Poppins", sans-serif;
   background-color: #123;
   color: #fff;
+  margin: 0;
 }
 main {
   width: 300px;
@@ -51,9 +52,6 @@ button {
   padding: 5px;
 }
 footer {
-  position: absolute;
-  bottom: 0;
-  left: 0;
   width: 100%;
   text-align: center;
 }
